@@ -1,50 +1,102 @@
-# React + TypeScript + Vite
+# Job Queue Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the **Job Queue Dashboard**! This is a web application where users can monitor job statuses in real-time and view random food images fetched from Unsplash. Users can also create new jobs and track their progress until resolution. The application is developed using **React**, **Tailwind CSS**, and **shadcn** for building responsive and modern UI components.
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **View Jobs**: Displays a list of jobs along with their current status (pending, resolved, failed).
+- **Create Jobs**: Allows users to create new jobs that fetch random food images from Unsplash.
+- **Real-time Updates**: Job statuses are updated automatically via Server-Sent Events (SSE).
+- **Responsive Design**: Uses Tailwind CSS to ensure a fully responsive and mobile-friendly interface.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: Core JavaScript library for building user interfaces.
+- **Tailwind CSS**: A utility-first CSS framework for rapid UI development.
+- **shadcn**: Component library for reusable UI elements.
+- **Node Fetch**: For making HTTP requests to the backend.
+- **SSE (Server-Sent Events)**: Real-time updates from the backend about job status changes.
 
-- Configure the top-level `parserOptions` property like this:
+## Folder Structure
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+The project is organized as follows:
+
+```bash
+.
+├── assets/
+│   └── # Stores static assets such as images.
+│
+├── components/
+│   ├── # Contains reusable React components.
+│   └── ui/
+│       └── # Core shadcn UI components like buttons, modals, etc.
+│
+├── constants/
+│   └── # Defines application-wide constants and configuration variables.
+│
+├── hooks/
+│   └── # Contains custom React hooks (e.g., to fetch job data or handle SSE).
+│
+├── service/
+│   └── # Handles HTTP API integration with the backend (get jobs, get job by ID, create job).
+│
+└── App.tsx
+    └── # Main application component where all implementation logic is executed.
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Description of Key Folders:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **assets**: Stores static images and other assets required by the app.
+- **components**: Houses reusable React components that make up the UI. The `ui` folder within contains core components from **shadcn** for consistent and polished UI elements.
+- **constants**: Holds global constants and configuration values used throughout the application.
+- **hooks**: Custom React hooks are defined here to fetch job data and handle real-time updates via **SSE**.
+- **service**: All HTTP API interactions with the backend (e.g., creating jobs, fetching job data) are handled here using **Node Fetch**.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### Prerequisites
+
+Before running the project, ensure that you have the following installed:
+
+- **Node.js** (v16 or higher)
+- **npm** or **yarn** for package management
+
+### Installation
+
+Follow the steps below to get the project up and running:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/calo-task-frontend.git
+   cd calo-task-frontend
+   ```
+2. Install dependencies:
+   ```bash
+    npm install
+    # or
+    yarn install
+   ```
+3. Start the development server:
+   ```bash
+    npm run dev
+    # or
+    yarn dev
+   ```
+4. Open the app in the browser:
+   ```bash
+    http://localhost:3000
+   ```
+
+### Usage
+
+1. **Creating Jobs:** You can create new jobs using the "Add Job" button on the dashboard.
+2. **Monitoring Job Status:** The dashboard will display the status of each job in real-time, updating as jobs move from pending to resolved or failed.
+3. **Real-time Updates:** The app uses **Server-Sent Events (SSE)** to receive updates about job statuses from the backend.
+
+### API Integration
+
+The frontend interacts with the backend through a set of API endpoints:
+
+1. **Create a Job:** Sends a request to create a new job.
+2. **Get All Jobs:** Fetches the list of all jobs and their statuses.
+3. **Get Job by ID:** Retrieves detailed information about a specific job by its ID.
+
+All API interactions are managed in the `/service` folder using Node Fetch.
