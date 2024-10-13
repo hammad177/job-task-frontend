@@ -5,10 +5,13 @@ import JobForm from "./components/JobForm";
 import useFetchJobs from "./hooks/useFetchJobs";
 import useServerEvent from "./hooks/useServerEvent";
 
-function App() {
-  const { jobs, isLoading, pushNewJob, refetchJob } = useFetchJobs();
+const userId = crypto.randomUUID();
 
-  useServerEvent(refetchJob);
+function App() {
+  const { jobs, isLoading, pushNewJob, refetchJob, refetchJobs } =
+    useFetchJobs();
+
+  useServerEvent({ refetchJob, userId, refetchJobs });
 
   return (
     <div className="container mx-auto">
