@@ -5,6 +5,7 @@ import { useToast } from "./use-toast";
 
 const useFetchJobs = () => {
   const [jobs, setJobs] = useState<HttpJobResponse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const { toast } = useToast();
 
@@ -20,6 +21,8 @@ const useFetchJobs = () => {
           description: message,
           variant: "destructive",
         });
+
+      setIsLoading(false);
     })();
   }, []);
 
@@ -33,7 +36,7 @@ const useFetchJobs = () => {
       setJobs((prev) => prev.map((job) => (job._id === id ? data : job)));
   };
 
-  return { jobs, pushNewJob, refetchJob };
+  return { isLoading, jobs, pushNewJob, refetchJob };
 };
 
 export default useFetchJobs;
