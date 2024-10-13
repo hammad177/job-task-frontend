@@ -2,9 +2,12 @@ import AppCard from "./components/AppCard";
 import Heading from "./components/Heading";
 import JobForm from "./components/JobForm";
 import useFetchJobs from "./hooks/useFetchJobs";
+import useServerEvent from "./hooks/useServerEvent";
 
 function App() {
-  const { jobs, pushNewJob } = useFetchJobs();
+  const { jobs, pushNewJob, refetchJob } = useFetchJobs();
+
+  useServerEvent(refetchJob);
 
   return (
     <div className="container mx-auto">

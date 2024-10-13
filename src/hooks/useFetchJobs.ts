@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getJobs } from "@/service/http";
+import { getJobById, getJobs } from "@/service/http";
 import { HttpJobResponse } from "@/types";
 import { useToast } from "./use-toast";
 
@@ -26,7 +26,14 @@ const useFetchJobs = () => {
   const pushNewJob = (job: HttpJobResponse) =>
     setJobs((prev) => [job, ...prev]);
 
-  return { jobs, pushNewJob };
+  const refetchJob = async (id: string) => {
+    const { success, data } = await getJobById(id);
+
+    if (success && data)
+      setJobs((prev) => prev.map((job) => (job._id === id ? data : job)));
+  };
+
+  return { jobs, pushNewJob, refetchJob };
 };
 
 export default useFetchJobs;

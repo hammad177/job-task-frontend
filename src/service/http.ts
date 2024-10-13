@@ -6,6 +6,13 @@ export const getJobs = async (): Promise<HttpResponse<HttpJobResponse[]>> => {
   return await response.json();
 };
 
+export const getJobById = async (
+  id: string
+): Promise<HttpResponse<HttpJobResponse>> => {
+  const response = await fetch(`${SERVER_URL}/jobs/${id}`);
+  return await response.json();
+};
+
 export const createJob = async (
   values: JobFormValues
 ): Promise<HttpResponse<HttpJobResponse>> => {
