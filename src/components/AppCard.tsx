@@ -1,3 +1,4 @@
+import { HttpJobResponse } from "@/types";
 import { Badge } from "./ui/badge";
 import {
   Card,
@@ -7,26 +8,42 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
+import { DEFAULT_IMAGE } from "@/constants";
 
-const AppCard = () => {
+const AppCard = ({ job }: AppCardProps) => {
+  const badgeVariant =
+    job.status === "failed"
+      ? "destructive"
+      : job.status === "pending"
+      ? "default"
+      : "outline";
+
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
-        <CardTitle>Card Title</CardTitle>
-        <Badge variant="default">Status</Badge>
+        <CardTitle className="truncate">{job.title}</CardTitle>
+        <Badge className="capitalize" variant={badgeVariant}>
+          {job.status}
+        </Badge>
       </CardHeader>
       <CardContent>
         <img
-          src="https://images.unsplash.com/photo-1721332150382-d4114ee27eff?ixid=M3w2NjQzNDN8MXwxfGFsbHwxfHx8fHx8fHwxNzI4ODIxMDI4fA&ixlib=rb-4.0.3"
-          alt="image-title"
-          className="w-full h-[350px] bg-cover rounded-sm"
+          src={job.result ? job.result : DEFAULT_IMAGE}
+          alt=""
+          className="w-full h-[350px] rounded-sm object-cover"
         />
       </CardContent>
       <CardFooter>
-        <CardDescription>Card Description</CardDescription>
+        <CardDescription className="line-clamp-2">
+          {job.description}
+        </CardDescription>
       </CardFooter>
     </Card>
   );
 };
 
 export default AppCard;
+
+type AppCardProps = {
+  job: HttpJobResponse;
+};

@@ -1,24 +1,43 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { JobFormValues } from "@/types";
+import { HttpJobResponse, JobFormValues } from "@/types";
+import { createJob } from "@/service/http";
+import { useToast } from "@/hooks/use-toast";
 
 const initialFormValues: JobFormValues = {
   title: "",
   description: "",
 };
 
-const JobForm = () => {
+const JobForm = ({ pushNewJob }: JobFormProps) => {
   const [formValues, setFormValues] =
     useState<JobFormValues>(initialFormValues);
+
+  const { toast } = useToast();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormValues({ ...formValues, [name]: value });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const { success, message, data } = await createJob(formValues);
+
+    if (!success) {
+      toast({
+        title: "Error",
+        description: message,
+      });
+    } else {
+      pushNewJob(data);
+      setFormValues(initialFormValues);
+      toast({
+        title: "Success",
+        description: "Job added successfully",
+      });
+    }
   };
 
   const isSubmitDisabled =
@@ -27,8 +46,14 @@ const JobForm = () => {
   return (
     <div className="max-w-[850px] mx-auto my-4">
       <form className="flex gap-4" onSubmit={handleSubmit}>
-        <Input name="title" placeholder="Job Title" onChange={handleChange} />
         <Input
+          value={formValues.title}
+          name="title"
+          placeholder="Job Title"
+          onChange={handleChange}
+        />
+        <Input
+          value={formValues.description}
           name="description"
           placeholder="Job Description"
           onChange={handleChange}
@@ -42,3 +67,7 @@ const JobForm = () => {
 };
 
 export default JobForm;
+
+type JobFormProps = {
+  pushNewJob: (job: HttpJobResponse) => void;
+};
