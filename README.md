@@ -65,7 +65,7 @@ Follow the steps below to get the project up and running:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/calo-task-frontend.git
+   git clone https://github.com/hammad177/calo-task-frontend.git
    cd calo-task-frontend
    ```
 2. Install dependencies:
