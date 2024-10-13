@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="container mx-auto">
       <Heading />
-      <JobForm pushNewJob={pushNewJob} />
+      <JobForm pushNewJob={pushNewJob} userId={userId} />
 
       {!jobs.length && !isLoading ? (
         <h3 className="text-center text-xl">

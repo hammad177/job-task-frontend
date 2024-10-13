@@ -10,7 +10,7 @@ const initialFormValues: JobFormValues = {
   description: "",
 };
 
-const JobForm = ({ pushNewJob }: JobFormProps) => {
+const JobForm = ({ pushNewJob, userId }: JobFormProps) => {
   const [formValues, setFormValues] =
     useState<JobFormValues>(initialFormValues);
 
@@ -23,7 +23,10 @@ const JobForm = ({ pushNewJob }: JobFormProps) => {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const { success, message, data } = await createJob(formValues);
+    const { success, message, data } = await createJob({
+      clientId: userId,
+      ...formValues,
+    });
 
     if (!success) {
       toast({
@@ -70,4 +73,5 @@ export default JobForm;
 
 type JobFormProps = {
   pushNewJob: (job: HttpJobResponse) => void;
+  userId: string;
 };

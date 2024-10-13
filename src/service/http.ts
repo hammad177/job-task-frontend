@@ -14,7 +14,7 @@ export const getJobById = async (
 };
 
 export const createJob = async (
-  values: JobFormValues
+  values: JobFormValues & { clientId: string }
 ): Promise<HttpResponse<HttpJobResponse>> => {
   const response = await fetch(`${SERVER_URL}/jobs`, {
     method: "POST",
